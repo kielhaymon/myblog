@@ -1,5 +1,3 @@
 import { withGridland } from "@gridland/web/next-plugin"
 
-export default withGridland({
-  turbopack: {},
-})
+export default withGridland({})
