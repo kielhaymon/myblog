@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { useRouter } from "next/navigation"
 import { textStyle } from "@/components/ui/text-style"
 import { useTheme } from "@/components/ui/theme"
 
@@ -37,8 +36,7 @@ const COMMANDS: Record<string, { navigate?: string; output?: string[] }> = {
   },
 }
 
-export function CommandPrompt() {
-  const router = useRouter()
+export function CommandPrompt({ onNavigate }: { onNavigate: (path: string) => void }) {
   const theme = useTheme()
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
@@ -69,7 +67,7 @@ export function CommandPrompt() {
           { command: trimmed, output: [`Navigating to ${cmd.navigate}...`] },
         ])
         setInputValue("")
-        router.push(cmd.navigate)
+        onNavigate(cmd.navigate)
         return
       }
 
@@ -89,7 +87,7 @@ export function CommandPrompt() {
       }
       setInputValue("")
     },
-    [router],
+    [onNavigate],
   )
 
   return (

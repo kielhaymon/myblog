@@ -1,12 +1,13 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { Shell } from "@/components/shell"
 import { Gradient } from "@/components/ui/gradient"
 import { CommandPrompt } from "@/components/command-prompt"
 import { textStyle } from "@/components/ui/text-style"
 import { useTheme } from "@/components/ui/theme"
 
-function HomeContent() {
+function HomeContent({ onNavigate }: { onNavigate: (path: string) => void }) {
   const theme = useTheme()
 
   return (
@@ -29,16 +30,18 @@ function HomeContent() {
         </text>
       </box>
       <box marginTop={1}>
-        <CommandPrompt />
+        <CommandPrompt onNavigate={onNavigate} />
       </box>
     </box>
   )
 }
 
 export default function HomeClient() {
+  const router = useRouter()
+
   return (
     <Shell activePage="home">
-      <HomeContent />
+      <HomeContent onNavigate={(path) => router.push(path)} />
     </Shell>
   )
 }
