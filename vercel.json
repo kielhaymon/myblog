@@ -1,4 +1,3 @@
 {
-  "buildCommand": "sh build.sh",
-  "outputDirectory": "public"
+  "framework": "nextjs"
 }
