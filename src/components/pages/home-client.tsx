@@ -7,13 +7,7 @@ import { CommandPrompt } from "@/components/command-prompt"
 import { textStyle } from "@/components/ui/text-style"
 import { useTheme } from "@/components/ui/theme"
 
-const BANNER = [
-  " _    _      _                _           ",
-  "| | _(_) ___| |  ___ ___   __| | ___  ___ ",
-  "| |/ / |/ _ \\ | / __/ _ \\ / _` |/ _ \\/ __|",
-  "|   <| |  __/ || (_| (_) | (_| |  __/\\__ \\",
-  "|_|\\_\\_|\\___|_(_)___\\___/ \\__,_|\\___||___/",
-].join("\n")
+const BANNER = "kiel.codes"
 
 function HomeContent({ onNavigate }: { onNavigate: (path: string) => void }) {
   const theme = useTheme()
