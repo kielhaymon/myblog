@@ -1,4 +1,5 @@
 import { useTheme } from "./theme"
+import { textStyle } from "./text-style"
 
 export interface AsciiProps {
   text: string
@@ -6,8 +7,12 @@ export interface AsciiProps {
   color?: string
 }
 
-export function Ascii({ text, font, color }: AsciiProps) {
+export function Ascii({ text, color }: AsciiProps) {
   const theme = useTheme()
   const resolvedColor = color ?? theme.primary
-  return <ascii-font text={text} font={font} style={{ fg: resolvedColor }} />
+  return (
+    <text style={textStyle({ fg: resolvedColor, bold: true })}>
+      {`[ ${text} ]`}
+    </text>
+  )
 }

@@ -76,7 +76,7 @@ export function Gradient({ children, name, colors }: GradientProps) {
   if (!name && !colors) throw new Error("Either `name` or `colors` prop must be provided")
 
   const gradientColors = name ? GRADIENTS[name] : colors!
-  const lines = children.split("")
+  const lines = children.split("\n")
   const maxLength = Math.max(...lines.map((l) => l.length))
 
   if (maxLength === 0) return <text>{children}</text>

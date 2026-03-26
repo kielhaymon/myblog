@@ -7,13 +7,20 @@ import { CommandPrompt } from "@/components/command-prompt"
 import { textStyle } from "@/components/ui/text-style"
 import { useTheme } from "@/components/ui/theme"
 
+const BANNER = `\
+ _    _      _                _
+| | _(_) ___| |  ___ ___   __| | ___  ___
+| |/ / |/ _ \\ | / __/ _ \\ / _\` |/ _ \\/ __|
+|   <| |  __/ || (_| (_) | (_| |  __/\\__ \\
+|_|\\_\\_|\\___|_(_)___\\___/ \\__,_|\\___||___/`
+
 function HomeContent({ onNavigate }: { onNavigate: (path: string) => void }) {
   const theme = useTheme()
 
   return (
     <box flexDirection="column" gap={1}>
       <Gradient name="mind">
-        {"kiel.codes"}
+        {BANNER}
       </Gradient>
       <text style={textStyle({ fg: theme.muted })}>
         software engineer
