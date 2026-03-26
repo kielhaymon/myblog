@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
+import { useKeyboard } from "@gridland/utils"
 import { textStyle } from "@/components/ui/text-style"
 import { useTheme } from "@/components/ui/theme"
 
@@ -36,16 +37,49 @@ const COMMANDS: Record<string, { navigate?: string; output?: string[] }> = {
   },
 }
 
+const COMMAND_NAMES = [...Object.keys(COMMANDS), "clear"]
+
 export function CommandPrompt({ onNavigate }: { onNavigate: (path: string) => void }) {
   const theme = useTheme()
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [inputValue, setInputValue] = useState("")
+  const [tabHint, setTabHint] = useState<string[] | null>(null)
+
+  // Tab completion
+  useKeyboard((key) => {
+    if (key.name === "tab") {
+      const partial = inputValue.trim().toLowerCase()
+      if (!partial) return
+
+      const matches = COMMAND_NAMES.filter((c) => c.startsWith(partial))
+      if (matches.length === 1) {
+        setInputValue(matches[0])
+        setTabHint(null)
+      } else if (matches.length > 1) {
+        setTabHint(matches)
+        // Find longest common prefix
+        let prefix = matches[0]
+        for (const m of matches) {
+          while (!m.startsWith(prefix)) {
+            prefix = prefix.slice(0, -1)
+          }
+        }
+        if (prefix.length > partial.length) {
+          setInputValue(prefix)
+        }
+      }
+    } else {
+      // Clear tab hint on any other key
+      if (tabHint) setTabHint(null)
+    }
+  })
 
   const handleSubmit = useCallback(
     (value: string) => {
       const trimmed = value.trim().toLowerCase()
+      setTabHint(null)
       if (!trimmed) {
         setInputValue("")
         return
@@ -131,6 +165,11 @@ export function CommandPrompt({ onNavigate }: { onNavigate: (path: string) => vo
           placeholderColor={theme.placeholder}
         />
       </box>
+      {tabHint && (
+        <text style={textStyle({ fg: theme.muted })}>
+          {tabHint.join("  ")}
+        </text>
+      )}
     </box>
   )
 }
